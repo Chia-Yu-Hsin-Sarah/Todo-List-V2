@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TodoDetailView: View {
     
-    @State var todo = Todo(title: "Do up this view", subtitle: "There's nothing here yet") // shows this in grey when there's nothing there
+    @Binding var todo : Todo // shows this in grey when there's nothing there
     //make sure the var is not private --> so it can carry through to other tabs
     
     var body: some View {
@@ -24,6 +24,9 @@ struct TodoDetailView: View {
 
 struct TodoDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        TodoDetailView()
+        TodoDetailView(todo:
+                .constant(Todo(title: "Do up this view", subtitle: "There's nothing here yet"))
+                       //now can edit in detail view
+        )
     }
 }
