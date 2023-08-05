@@ -16,9 +16,12 @@ struct ContentView: View {
         Todo(title: "Get stuck in traffic")
     ]
     
+    @State private var showNewTodoSheet = false
+    
     var body: some View {
         NavigationStack {
-            List($todos, id: \.id) { $todo in
+            List($todos, id: \.id, editActions: .all) { $todo in
+                // editActions: .all --> allow deletion
                 NavigationLink{
                     TodoDetailView(todo: $todo)
                 } label: {
@@ -41,12 +44,24 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Todos")
+            .toolbar {
+                ToolbarItem(placement:.navigationBarLeading) {
+                    EditButton()
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showNewTodoSheet = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $showNewTodoSheet){
+                New_Todo_View(sourceArray: $todos)
+            }
         }
     }
 }
-
-
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
